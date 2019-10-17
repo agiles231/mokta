@@ -48,9 +48,12 @@ public class UserRestApiController {
 	
 	@PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE
 			, produces = MediaType.APPLICATION_JSON_VALUE, value="/users/{loginOrId}")
-	public String updateUser(@PathVariable(value="loginOrId") String loginOrId, @RequestBody UserForm userForm) {
+	public String updateUser(@PathVariable(value="loginOrId") String loginOrId, @RequestBody UserForm userForm, HttpServletResponse response) {
 		User user = userService.getUserByLoginOrId(loginOrId);
-		throw new UnsupportedOperationException("Not implemented yet");
+		Credentials creds = userForm.getCredentials();
+		Map<String, Object> profile = userForm.getProfile();
+		userService.updateUserByLoginOrId(user.getId(), creds, profile);
+		return getUser(user.getId(), response); // must use id in case login is what was updated
 	}
 
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE
@@ -59,10 +62,7 @@ public class UserRestApiController {
 		User user = userService.getUserByLoginOrId(loginOrId);
 		Credentials creds = userForm.getCredentials();
 		Map<String, Object> profile = userForm.getProfile();
-		for(Map.Entry<String, Object> entry : profile.entrySet()) {
-			user.updateProfile(entry.getKey(), entry.getValue());
-		}
-		userService.partialUpdateUserById(user);
+		userService.partialUpdateUserByLoginOrId(user.getId(), creds, profile);
 		return getUser(user.getId(), response); // must use id in case login is what was updated
 	}
 	
@@ -89,13 +89,15 @@ public class UserRestApiController {
 	}
 
 	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, value="/users/{loginOrId}/lifecycle/deactivate")
-	public void deactivateUser(@PathVariable(value="loginOrId") String loginOrId) {
+	public String deactivateUser(@PathVariable(value="loginOrId") String loginOrId) {
 		userService.deactivateUser(loginOrId);
+		return "";
 	}
 	
 	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, value="/users/{loginOrId}/lifecycle/suspend")
-	public void suspendUser(@PathVariable(value="loginOrId") String loginOrId) {
+	public String suspendUser(@PathVariable(value="loginOrId") String loginOrId) {
 		userService.suspendUser(loginOrId);
+		return "";
 	}
 	
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE, value="/users")

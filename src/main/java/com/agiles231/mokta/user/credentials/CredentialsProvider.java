@@ -1,10 +1,10 @@
 package com.agiles231.mokta.user.credentials;
 
-public class Provider {
+public class CredentialsProvider {
 	private final String type;
 	private final String name;
 
-	public Provider(String type, String name) {
+	public CredentialsProvider(String type, String name) {
 		super();
 		this.type = type;
 		this.name = name;

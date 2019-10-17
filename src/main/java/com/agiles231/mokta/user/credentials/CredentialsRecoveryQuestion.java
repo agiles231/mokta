@@ -1,9 +1,9 @@
 package com.agiles231.mokta.user.credentials;
 
-public class RecoveryQuestion {
+public class CredentialsRecoveryQuestion {
 	private final String question;
 
-	public RecoveryQuestion(String question) {
+	public CredentialsRecoveryQuestion(String question) {
 		super();
 		this.question = question;
 	}

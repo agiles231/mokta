@@ -1,10 +1,10 @@
 package com.agiles231.mokta.user.credentials;
 
-public class Password {
+public class CredentialsPassword {
 
 	private final String value;
 
-	public Password(String value) {
+	public CredentialsPassword(String value) {
 		super();
 		this.value = value;
 	}

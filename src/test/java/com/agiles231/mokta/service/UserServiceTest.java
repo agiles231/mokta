@@ -1,5 +1,8 @@
 package com.agiles231.mokta.service;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.sql.DataSource;
 
 import org.junit.After;
@@ -39,6 +42,7 @@ public class UserServiceTest {
 		String id = "123";
 
 		User user = userService.getUserByLoginOrId(id);
+		Assert.assertTrue("Id incorrect. Expected: 123, Actual: " + id, id.equals("123"));
 		System.out.println(user);
 
 		user = userService.getUserByLoginOrId("agiles@domain.com");
@@ -46,8 +50,9 @@ public class UserServiceTest {
 		Assert.assertTrue("Login incorrect. Expected: agiles@domain.com, Actual: " + login, login.equals("agiles@domain.com"));
 		System.out.println(user);
 		
-		user.updateProfile("login", "agiles@domain2.org");
-		userService.partialUpdateUserById(user);
+		Map<String, Object> profile = new HashMap<>();
+		profile.put("login", "agiles@domain2.org");
+		userService.partialUpdateUserByLoginOrId(user.getId(), null, profile);
 		user = userService.getUserByLoginOrId(id);
 		login = (String)user.getProfile().get("login");
 		Assert.assertTrue("Login incorrect. Expected: agiles@domain2.org, Actual: " + login, login.equals("agiles@domain2.org"));

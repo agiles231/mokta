@@ -2,26 +2,26 @@ package com.agiles231.mokta.user.credentials;
 
 public class Credentials {
 	
-	private Password password;
-	private RecoveryQuestion recoveryQuestion;
-	private Provider provider;
+	private CredentialsPassword password;
+	private CredentialsRecoveryQuestion recoveryQuestion;
+	private CredentialsProvider provider;
 
-	public Credentials(Password password, RecoveryQuestion recoveryQuestion, Provider provider) {
+	public Credentials(CredentialsPassword password, CredentialsRecoveryQuestion recoveryQuestion, CredentialsProvider provider) {
 		super();
 		this.password = password;
 		this.recoveryQuestion = recoveryQuestion;
 		this.provider = provider;
 	}
 	
-	public Password getPassword() {
+	public CredentialsPassword getPassword() {
 		return password;
 	}
 
-	public RecoveryQuestion getRecoveryQuestion() {
+	public CredentialsRecoveryQuestion getRecoveryQuestion() {
 		return recoveryQuestion;
 	}
 
-	public Provider getProvider() {
+	public CredentialsProvider getProvider() {
 		return provider;
 	}
 	
