@@ -1,4 +1,4 @@
-package com.agiles231.mokta.user;
+package com.agiles231.mokta.domain.user;
 
 import java.sql.Types;
 import java.util.Collection;
@@ -12,7 +12,9 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.agiles231.mokta.user.credentials.Credentials;
+import com.agiles231.mokta.user.credentials.Password;
 import com.agiles231.mokta.user.credentials.Provider;
+import com.agiles231.mokta.user.credentials.RecoveryQuestion;
 
 @Repository
 public class UserSqlDao implements UserDao {
@@ -113,7 +115,7 @@ public class UserSqlDao implements UserDao {
 		});
 		User user = jdbcTemplate.query(getUserSql, new Object[] {id}, (rs) -> {
 			rs.next();
-			Credentials credentials = new Credentials(null
+			Credentials credentials = new Credentials(new Password(null), new RecoveryQuestion(rs.getString("recovery_question"))
 					, new Provider(rs.getString("cred_provider_type"), rs.getString("cred_provider_name")));
 			return new User(rs.getString("user_id"), rs.getString("status")
 					, rs.getString("status_changed"), rs.getString("created")
@@ -199,7 +201,7 @@ public class UserSqlDao implements UserDao {
 			Collection<User> us = new LinkedList<>();
 			while (rs.next()) {
 				String id = rs.getString("user_id");
-				Credentials credentials = new Credentials(null
+				Credentials credentials = new Credentials(new Password(null), new RecoveryQuestion(rs.getString("recovery_question"))
 						, new Provider(rs.getString("cred_provider_type"), rs.getString("cred_provider_name")));
 				us.add(new User(id, rs.getString("status")
 					, rs.getString("status_changed"), rs.getString("created")
@@ -241,7 +243,7 @@ public class UserSqlDao implements UserDao {
 		});
 		User user = jdbcTemplate.query(getUserByLoginSql, new Object[] {login}, (rs) -> {
 			rs.next();
-			Credentials credentials = new Credentials(null
+			Credentials credentials = new Credentials(new Password(null), new RecoveryQuestion(rs.getString("recovery_question"))
 					, new Provider(rs.getString("cred_provider_type"), rs.getString("cred_provider_name")));
 			return new User(rs.getString("user_id"), rs.getString("status")
 					, rs.getString("status_changed"), rs.getString("created")

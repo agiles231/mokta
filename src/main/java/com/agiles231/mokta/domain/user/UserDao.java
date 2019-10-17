@@ -1,4 +1,4 @@
-package com.agiles231.mokta.user;
+package com.agiles231.mokta.domain.user;
 
 import com.agiles231.mokta.persistance.Dao;
 

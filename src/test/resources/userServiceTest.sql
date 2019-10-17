@@ -1,7 +1,13 @@
 
-INSERT INTO mokta_user u (user_id, status, status_changed, activated, last_login
-, last_updated, password_changed, cred_provider_type, cred_provider_name)
-VALUES ('123', 'ACTIVE', SYSDATE, SYSDATE, SYSDATE, NULL, SYSDATE, 'Active Directory'
+INSERT INTO mokta_user u (user_id, status, status_changed, created, activated, last_login
+, last_updated, password_changed, recovery_question, cred_provider_type, cred_provider_name)
+VALUES ('123', 'ACTIVE', TO_CHAR(SYSTIMESTAMP AT TIME ZONE 'GMT', 'YYYY-MM-DD"T"HH24:MI:SS.FF3"Z"')
+, TO_CHAR(SYSTIMESTAMP AT TIME ZONE 'GMT', 'YYYY-MM-DD"T"HH24:MI:SS.FF3"Z"')
+, TO_CHAR(SYSTIMESTAMP AT TIME ZONE 'GMT', 'YYYY-MM-DD"T"HH24:MI:SS.FF3"Z"')
+, TO_CHAR(SYSTIMESTAMP AT TIME ZONE 'GMT', 'YYYY-MM-DD"T"HH24:MI:SS.FF3"Z"')
+, TO_CHAR(SYSTIMESTAMP AT TIME ZONE 'GMT', 'YYYY-MM-DD"T"HH24:MI:SS.FF3"Z"')
+, TO_CHAR(SYSTIMESTAMP AT TIME ZONE 'GMT', 'YYYY-MM-DD"T"HH24:MI:SS.FF3"Z"')
+, 'What is my favorite song', 'ACTIVE_DIRECTORY'
 , 'domain.com');
 
 INSERT INTO mokta_user_profile p (user_id, profile_key, profile_value_string)

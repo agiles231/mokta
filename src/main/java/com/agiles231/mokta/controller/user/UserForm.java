@@ -1,4 +1,4 @@
-package com.agiles231.mokta.user;
+package com.agiles231.mokta.controller.user;
 
 import java.util.Map;
 

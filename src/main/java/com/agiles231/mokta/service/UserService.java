@@ -6,9 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
-import com.agiles231.mokta.user.User;
-import com.agiles231.mokta.user.UserDao;
-import com.agiles231.mokta.user.UserForm;
+import com.agiles231.mokta.controller.user.UserForm;
+import com.agiles231.mokta.domain.user.User;
+import com.agiles231.mokta.domain.user.UserDao;
 
 @Service
 public class UserService {
@@ -16,11 +16,14 @@ public class UserService {
 	@Autowired
 	private UserDao userDao;
 
-	public User getUserById(String id) {
-		return userDao.get(id);
-	}
-	public User getUserByLogin(String login) {
-		return userDao.getByLogin(login);
+	public User getUserByLoginOrId(String loginOrId) {
+		User user = null;
+		if (loginOrId.contains("@")) {
+			user = userDao.getByLogin(loginOrId);
+		} else {
+			user = userDao.get(loginOrId);
+		}
+		return user;
 	}
 	public Collection<User> getUsers() {
 		return userDao.getAll();
@@ -37,12 +40,11 @@ public class UserService {
 //	}
 	public User partialUpdateUserById(User user) {
 		userDao.update(user);
-		return getUserById(user.getId());
+		return getUserByLoginOrId(user.getId());
 	}
 	public User partialUpdateUserByLogin(String login, UserForm form) {
 		throw new UnsupportedOperationException("Not implemented yet");
 	}
-	
 	public void activateUser(String userId) {
 		throw new UnsupportedOperationException("Not implemented yet");
 	}
@@ -53,18 +55,26 @@ public class UserService {
 		throw new UnsupportedOperationException("Not implemented yet");
 	}
 	public void suspendUser(String userId) {
-		throw new UnsupportedOperationException("Not implemented yet");
+		User user = getUserByLoginOrId(userId);
+		user.suspend();
+		userDao.update(user);
 	}
 	public void unsuspendUser(String userId) {
-		throw new UnsupportedOperationException("Not implemented yet");
+		User user = getUserByLoginOrId(userId);
+		user.unsuspend();
+		userDao.update(user);
 	}
-	public void deleteUserById(String id) {
-		throw new UnsupportedOperationException("Not implemented yet");
-	}
-	public void deleteUserByLogin(String login) {
+	public void deleteUserByLoginOrId(String loginOrId) {
+		User user = getUserByLoginOrId(loginOrId);
+		if (user.isDeprovisioned()) {
+			userDao.delete(user.getId());
+		} else {
+			throw new IllegalStateException("User must be DEPROVISIONED to delete");
+		}
 		throw new UnsupportedOperationException("Not implemented yet");
 	}
 	public void unlockUser(String userId) {
+		User user = getUserByLoginOrId(userId);
 		throw new UnsupportedOperationException("Not implemented yet");
 	}
 	public void resetPassword(String userId) {

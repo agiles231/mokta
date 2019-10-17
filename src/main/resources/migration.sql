@@ -8,6 +8,7 @@ CREATE TABLE mokta_user (
 	, last_login VARCHAR2(32)
 	, last_updated VARCHAR2(32)
 	, password_changed VARCHAR2(32)
+	, recovery_question VARCHAR2(512)
 	, cred_provider_type VARCHAR2(32)
 	, cred_provider_name VARCHAR2(32)
 	, CONSTRAINT mokta_user_pk PRIMARY KEY (user_id)
